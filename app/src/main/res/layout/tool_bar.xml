@@ -41,6 +41,9 @@
       android:textColor="@color/white"
       android:textSize="16sp"
       tools:text="标题"
+      android:maxLines="1"
+      android:ellipsize="end"
+      android:maxWidth="160dp"
       />
 
 </androidx.appcompat.widget.Toolbar>

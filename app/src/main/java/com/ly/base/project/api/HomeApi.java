@@ -4,6 +4,7 @@ import com.ly.base.project.http.ResponseModel;
 import com.ly.base.project.model.Index;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * Created by Administrator on 2019/9/10 10:33.
@@ -11,5 +12,6 @@ import retrofit2.http.GET;
  */
 public interface HomeApi {
 
-  @GET("/article/listproject/0/json") Observable<ResponseModel<Index>> index();
+  @GET("/article/listproject/{page}/json") Observable<ResponseModel<Index>> index(
+      @Path("page") int page);
 }

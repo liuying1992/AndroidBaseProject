@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public abstract class BaseActivity extends AppCompatActivity {
   public Context mContext;
   private Toolbar mToolbar;
   private TextView mTitle, mBackText;
+  private ImageView mBackImg;
 
   @Override protected void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
@@ -30,18 +32,32 @@ public abstract class BaseActivity extends AppCompatActivity {
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    //setContentView(R.layout.base_activity);
     mContext = this;
   }
 
   public void setTitleText(String title) {
-    mToolbar = getToolbar();
+    initToolBar();
+    if (mToolbar != null) {
+      mTitle.setText(title);
+    }
+  }
+
+  public void setTitleBackHide(boolean hide) {
+    initToolBar();
+    if (mToolbar != null) {
+      mBackImg.setVisibility(hide ? View.GONE : View.VISIBLE);
+      mBackText.setVisibility(hide ? View.GONE : View.VISIBLE);
+    }
+  }
+
+  public void initToolBar() {
+    if (mToolbar == null) {
+      mToolbar = getToolbar();
+    }
     if (mToolbar != null) {
       mTitle = mToolbar.findViewById(R.id.txt_title);
       mBackText = mToolbar.findViewById(R.id.txt_back);
-    }
-    if (mToolbar != null) {
-      mTitle.setText(title);
+      mBackImg = mToolbar.findViewById(R.id.img_back);
     }
   }
 

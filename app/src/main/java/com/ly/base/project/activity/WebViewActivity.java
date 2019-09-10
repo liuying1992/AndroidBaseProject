@@ -31,6 +31,7 @@ import java.lang.reflect.Method;
 public class WebViewActivity extends BaseActivity {
   @BindView(R.id.progressbar) ProgressBar mProgressBar;
   @BindView(R.id.webView) WebView mWebView;
+  @BindView(R.id.tool_bar) Toolbar mToolBar;
   private String url;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class WebViewActivity extends BaseActivity {
   }
 
   @Override protected Toolbar getToolbar() {
-    return null;
+    return mToolBar;
   }
 
   /**
@@ -132,7 +133,7 @@ public class WebViewActivity extends BaseActivity {
 
       @Override public void onReceivedTitle(WebView view, String title) {
         super.onReceivedTitle(view, title);
-        //setTitle(title);
+        setTitleText(title);
       }
 
       @Override
