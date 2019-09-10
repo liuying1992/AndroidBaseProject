@@ -5,5 +5,5 @@ package com.ly.base.project.http;
  * Email: ly1203575492@163.com
  */
 public interface Urls {
-  public static final String BASE_URL = "";
+  public static final String BASE_URL = "https://wanandroid.com";
 }

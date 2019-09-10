@@ -2,6 +2,7 @@ package com.ly.base.project.http;
 
 import com.ly.base.project.util.LogUtil;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -20,8 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HttpManager {
   private static HttpManager sHttpManager;
   private static Retrofit sRetrofit;
-  private static volatile Request sRequest = null;
   private static final int DEFAULT_TIMEOUT = 30;//网络超时时间
+  private HashMap<String, Object> mServiceMap = null;
 
   /**
    * 单例
@@ -41,6 +42,7 @@ public class HttpManager {
    *  初始化相关数据
    */
   public void init() {
+    mServiceMap = new HashMap<>();
     //初始化Okhttp
     HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
     logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
@@ -58,16 +60,23 @@ public class HttpManager {
   }
 
   /***
-   * 获取请求实例
+   * 获取请求
    */
-
-  public static Request getRequest() {
-    if (sRequest == null) {
-      synchronized (Request.class) {
-        sRequest = sRetrofit.create(Request.class);
-      }
+  public <T> T getService(Class<T> tClass) {
+    if (mServiceMap.containsKey(tClass.getName())) {
+      return (T) mServiceMap.get(tClass.getName());
+    } else {
+      Object obj = createService(tClass);
+      mServiceMap.put(tClass.getName(), obj);
+      return (T) obj;
     }
-    return sRequest;
+  }
+
+  /**
+   * 创建请求
+   */
+  private <T> Object createService(Class<T> tClass) {
+    return sRetrofit.create(tClass);
   }
 
   /**
