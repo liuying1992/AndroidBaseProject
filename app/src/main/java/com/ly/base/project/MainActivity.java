@@ -1,9 +1,12 @@
 package com.ly.base.project;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.ly.base.project.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Launch 首页
+ */
+public class MainActivity extends BaseActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
