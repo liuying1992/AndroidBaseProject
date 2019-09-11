@@ -77,8 +77,10 @@ public class RetrofitActivity extends BaseActivity {
         doRequest();
       }
     }, mRecyclerView);
-    doRequest();
 
+    doRequest();
+    mRefreshLayout.setColorSchemeResources(R.color.pink, R.color.DarkOrchid, R.color.blue,
+        R.color.colorPrimary);
     mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override public void onRefresh() {
         page = 0;
@@ -97,15 +99,19 @@ public class RetrofitActivity extends BaseActivity {
           @Override protected void onSuccess(ResponseModel<Index> response) {
             mRefreshLayout.setRefreshing(false);
             mBaseQuickAdapter.loadMoreComplete();
-            datas = response.getData().getDatas();
+            List<Datas> list = response.getData().getDatas();
             if (page == 0) {
+              datas = list;
               mBaseQuickAdapter.setNewData(datas);
             } else {
-              mBaseQuickAdapter.addData(datas);
+              datas.addAll(list);
+              mBaseQuickAdapter.addData(list);
             }
             /**如果已经没有更多了 则不可加载更多**/
             if (page == response.getData().getPageCount()) {
-              mBaseQuickAdapter.loadMoreEnd(true);
+              mBaseQuickAdapter.setEnableLoadMore(false);
+            } else {
+              mBaseQuickAdapter.setEnableLoadMore(true);
             }
           }
 
